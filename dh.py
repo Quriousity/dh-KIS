@@ -824,7 +824,7 @@ def Close1515():
 
 def StopLoss():
     global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno
-    t = datetime.now()
+    t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
     print(t)
     if switch3:
         # 포지션 정보 가져오기
