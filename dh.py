@@ -24,7 +24,6 @@ ACNT_PRDT_CD = config["ACNT_PRDT_CD"]
 qty = config["qty"]
 ticker = config["ticker"]
 discord = config['discord']
-reset = config["reset"]
 
 # Token 발급받기
 token = GetToken(appkey, appsecret); sleep(0.1)
