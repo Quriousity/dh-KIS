@@ -165,10 +165,13 @@ def OpenPosition():
     first5 = indicator5['close'].iloc[1] - indicator5['open'].iloc[1]
     first10 = indicator10['close'].iloc[1] - indicator10['open'].iloc[1]
     first30 = indicator30['close'].iloc[1] - indicator30['open'].iloc[1]
-
+    # 현재분
+    minute = datetime.now().minute
+    m10 = [4, 14, 24, 34, 44, 54]
+    m30 = [14, 44]
     if switch1:
         # [전략1]30분봉, 롱
-        if After944():
+        if After944() and minute in m30:
             if abs(body30_) < abs(body30):
                 if first30 > 0 and body30_ < 0 and body30 > 0:
                     if candle30['low'].iloc[-1] < candle30['open'].iloc[1] and candle30['open'].iloc[1] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[1] + 0.5:
@@ -178,7 +181,7 @@ def OpenPosition():
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                                 Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략1 30분봉)")
         # [전략1]10분봉, 롱
-        if After914():
+        if After914() and minute in m10:
             if abs(body10_) < abs(body10):
                 if first10 > 0 and body10_ < 0 and body10 > 0:
                     if candle10['low'].iloc[-1] < candle10['open'].iloc[1] and candle10['open'].iloc[1] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[1] + 0.5:
@@ -198,7 +201,7 @@ def OpenPosition():
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                                 Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략1 5분봉)")
         # [전략1]30분봉, 숏
-        if After944():
+        if After944() and minute in m30:
             if abs(body30_) < abs(body30):
                 if first30 < 0 and body30_ > 0 and body30 < 0:
                     if candle30['high'].iloc[-1] > candle30['open'].iloc[1] and candle30['open'].iloc[1] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[1] - 0.5:
@@ -208,7 +211,7 @@ def OpenPosition():
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                                 Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략1 30분봉")
         # [전략1]10분봉, 숏
-        if After914():
+        if After914() and minute in m10:
             if abs(body10_) < abs(body10):
                 if first10 < 0 and body10_ > 0 and body10 < 0:
                     if candle10['high'].iloc[-1] > candle10['open'].iloc[1] and candle10['open'].iloc[1] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[1] - 0.5:
@@ -228,7 +231,7 @@ def OpenPosition():
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                                 Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략1 5분봉")
         # [전략2]30분봉, 롱
-        if After944():
+        if After944() and minute in m30:
             if abs(body30) < 1 and first30 > 0:
                 if candle30['low'].iloc[-1] < candle30['open'].iloc[1] and candle30['open'].iloc[1] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[1] + 0.5:
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
@@ -237,7 +240,7 @@ def OpenPosition():
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                             Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략2 30분봉)")
         # [전략2]10분봉, 롱
-        if After914():
+        if After914() and minute in m10:
             if abs(body10) < 1 and first30 > 0:
                 if candle10['low'].iloc[-1] < candle10['open'].iloc[1] and candle10['open'].iloc[1] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[1] + 0.5:
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
@@ -246,7 +249,7 @@ def OpenPosition():
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                             Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략2 10분봉)")
         # [전략2]30분봉, 숏
-        if After944():
+        if After944() and minute in m30:
             if abs(body30) < 1 and first30 < 0:
                 if candle30['high'].iloc[-1] > candle30['open'].iloc[1] and candle30['open'].iloc[1] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[1] - 0.5:
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
@@ -255,7 +258,7 @@ def OpenPosition():
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                             Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략2 30분봉)")
         # [전략2]10분봉, 숏
-        if After914():
+        if After914() and minute in m10:
             if abs(body10) < 1 and first30 < 0:
                 if candle10['high'].iloc[-1] > candle10['open'].iloc[1] and candle10['open'].iloc[1] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[1] - 0.5:
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
@@ -264,7 +267,7 @@ def OpenPosition():
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                             Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략2 10분봉)")
         # [전략3]30분봉, 롱
-        if After944():
+        if After944() and minute in m30:
             if abs(body30) < 1.5 and abs(body30_) < abs(body30):
                 if body30_ < 0 and body30 > 0:
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
@@ -275,7 +278,7 @@ def OpenPosition():
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                                     Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략3 30분봉)")
         # [전략3]10분봉, 롱
-        if After914():
+        if After914() and minute in m10:
             if abs(body10) < 1.5 and abs(body10_) < abs(body10):
                 if body10_ < 0 and body10 > 0:
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
@@ -297,7 +300,7 @@ def OpenPosition():
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                                     Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략3 5분봉)")
         # [전략3]30분봉, 숏
-        if After944():
+        if After944() and minute in m30:
             if abs(body30) < 1.5 and abs(body30_) < abs(body30):
                 if body30_ > 0 and body30 < 0:
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
@@ -308,7 +311,7 @@ def OpenPosition():
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                                     Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략3 30분봉)")
         # [전략3]10분봉, 숏
-        if After914():
+        if After914() and minute in m10:
             if abs(body10) < 1.5 and abs(body10_) < abs(body10):
                 if body10_ > 0 and body10 < 0:
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
@@ -616,7 +619,7 @@ def ClosePosition():
 
 # 포지션 종료
 def Close1515():
-    global switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno
+    global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno
     # 포지션 정보 가져오기
     position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
     # 포지션이 있으면
@@ -627,6 +630,7 @@ def Close1515():
             BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
         # 미체결 주문 제거
         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+        switch3 = False; UpdateParameter(switch3, 'switch3')
 
 def StopLoss():
     global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno
@@ -651,25 +655,23 @@ def StopLoss():
 
 # Main 
 m5 = ["04", "09", "14", "19", "24", "29", "34", "39", "44", "49", "54", "59"]
-scheduleOpen = []  # OpenPosition 스케줄
-scheduleClose = []  # ClosePosition 스케줄
+# m10 = ["04", "14", "24", "34", "44", "54"]
+# m30 = ["14", "44",]
+scheduleOC = [] 
 for i in range(9,15):
     if i == 9:
         h = '09'
     else:
         h = str(i)
     for m in m5:
-        scheduleOpen.append('{}:{}:{}'.format(h, m, 58))
-        scheduleClose.append('{}:{}:{}'.format(h, m, 57))
-
+        scheduleOC.append('{}:{}:{}'.format(h, m, 58))
 
 # 09시 Reset
 schedule.every().day.at("09:00:00").do(ResetToday)
 
 schedule.every().seconds.do(StopLoss)
-for i in scheduleOpen:
+for i in scheduleOC:
     schedule.every().day.at(i).do(OpenPosition)
-for i in scheduleClose:
     schedule.every().day.at(i).do(ClosePosition)
 # 15시 15분 강제청산
 schedule.every().day.at("15:15:00").do(Close1515)
