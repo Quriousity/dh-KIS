@@ -336,7 +336,6 @@ def OpenPosition():
 def ClosePosition():
     global switch2, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, discord
     if switch2:
-        switch2 = False; UpdateParameter(switch2, 'switch2')
         # 포지션 정보 가져오기
         position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
         # 포지션이 있으면
@@ -364,10 +363,15 @@ def ClosePosition():
             body5_ = candle5['close'].iloc[-2] - candle5['open'].iloc[-2]
             body10_ = candle10['close'].iloc[-2] - candle10['open'].iloc[-2]
             body30_ = candle30['close'].iloc[-2] - candle30['open'].iloc[-2]
+            # 현재분
+            minute = datetime.now().minute
+            m10 = [4, 14, 24, 34, 44, 54]
+            m30 = [14, 44]
 
             if position == "매수":
                 # 5분봉
                 if switchLong == 5:
+                    switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body5 > 0:
                         if abs(body5) < 1:
                             buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1)
@@ -411,7 +415,8 @@ def ClosePosition():
                         with open('Log.txt', 'a') as fa:
                             fa.write('\n'); fa.write(message)
                 # 10분봉
-                if switchLong == 10:
+                if switchLong == 10 and minute in m10:
+                    switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body10 > 0:
                         if abs(body10) < 1:
                             buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1)
@@ -454,7 +459,8 @@ def ClosePosition():
                             fa.write('\n'); fa.write(message)
 
                 # 30분봉
-                if switchLong == 30:
+                if switchLong == 30 and minute in m30:
+                    switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body30 > 0:
                         if abs(body30) < 1:
                             buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1)
@@ -497,6 +503,7 @@ def ClosePosition():
             elif position == "매도":
                 # 5분봉
                 if switchShort == 5:
+                    switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body5 < 0:
                         if abs(body5) < 1:
                             buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-1)
@@ -537,7 +544,8 @@ def ClosePosition():
                             fa.write('\n'); fa.write(message)
 
                 # 10분봉
-                if switchShort == 10:
+                if switchShort == 10 and minute in m10:
+                    switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body10 < 0:
                         if abs(body10) < 1:
                             buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-1)
@@ -577,7 +585,8 @@ def ClosePosition():
                         with open('Log.txt', 'a') as fa:
                             fa.write('\n'); fa.write(message)
                 # 30분봉
-                if switchShort == 30:
+                if switchShort == 30 and minute in m30:
+                    switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body30 < 0:
                         if abs(body30) < 1:
                             buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-1)
@@ -637,21 +646,27 @@ def StopLoss():
     t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
     print(t)
     if switch3:
-        # 포지션 정보 가져오기
-        position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
-        # 포지션이 있으면
-        if quantity > 0:
-            df = GetKOSPI200(appkey, appsecret, token, 3600, date)
-            if position == "매수":
-                if df['close'].iloc[-1] < price - 1:
-                    SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
-            elif position == "매도":
-                if df['close'].iloc[-1] > price + 1:
-                    BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
-        # 미체결 주문 제거
-        else:
-            CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
-            switch3 = False; UpdateParameter(switch3, 'switch3')
+        second = datetime.now().second
+        if second != 58:
+            # 포지션 정보 가져오기
+            position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
+            print(position, price, quantity)
+            # 포지션이 있으면
+            if quantity > 0:
+                df = GetKOSPI200(appkey, appsecret, token, 3600, date); sleep(0.1)
+                print(df)
+                if position == "매수":
+                    if df['close'].iloc[-1] < price - 1:
+                        SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
+                        # 미체결 주문 제거
+                        CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                        switch3 = False; UpdateParameter(switch3, 'switch3')
+                elif position == "매도":
+                    if df['close'].iloc[-1] > price + 1:
+                        BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
+                        # 미체결 주문 제거
+                        CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                        switch3 = False; UpdateParameter(switch3, 'switch3')
 
 # Main 
 m5 = ["04", "09", "14", "19", "24", "29", "34", "39", "44", "49", "54", "59"]
@@ -671,8 +686,8 @@ schedule.every().day.at("09:00:00").do(ResetToday)
 
 schedule.every().seconds.do(StopLoss)
 for i in scheduleOC:
-    schedule.every().day.at(i).do(OpenPosition)
     schedule.every().day.at(i).do(ClosePosition)
+    schedule.every().day.at(i).do(OpenPosition)
 # 15시 15분 강제청산
 schedule.every().day.at("15:15:00").do(Close1515)
 
