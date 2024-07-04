@@ -382,6 +382,9 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                         if candle5['high'].iloc[-2] > candle5['high'].iloc[-1]:
                             SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            # 미체결 주문 제거
+                            CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                            switch3 = False; UpdateParameter(switch3, 'switch3')
                             # 알림
                             t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
@@ -402,6 +405,9 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                             if abs(body5_) < abs(body5):
                                 SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                # 미체결 주문 제거
+                                CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                                switch3 = False; UpdateParameter(switch3, 'switch3')
                                 # 알림
                                 t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                                 message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
@@ -409,6 +415,9 @@ def ClosePosition():
                                     fa.write('\n'); fa.write(message)
                     if candle5['close'].iloc[-1] < indicator5['ma5'].iloc[-1]:
                         SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        # 미체결 주문 제거
+                        CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                        switch3 = False; UpdateParameter(switch3, 'switch3')
                         # 알림
                         t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                         message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
@@ -426,6 +435,9 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                         if candle10['high'].iloc[-2] > candle10['high'].iloc[-1]:
                             SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            # 미체결 주문 제거
+                            CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                            switch3 = False; UpdateParameter(switch3, 'switch3')
                             # 알림
                             t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
@@ -446,12 +458,18 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                             if abs(body10_) < abs(body10):
                                 SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                # 미체결 주문 제거
+                                CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                                switch3 = False; UpdateParameter(switch3, 'switch3')
                                 t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                                 message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle10['close'].iloc[-1] < indicator10['ma5'].iloc[-1]:
                         SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        # 미체결 주문 제거
+                        CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                        switch3 = False; UpdateParameter(switch3, 'switch3')
                         # 알림
                         t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                         message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
@@ -470,6 +488,9 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                         if candle30['high'].iloc[-2] > candle30['high'].iloc[-1]:
                             SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            # 미체결 주문 제거
+                            CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                            switch3 = False; UpdateParameter(switch3, 'switch3')
                             t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
@@ -489,12 +510,18 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                             if abs(body30_) < abs(body30):
                                 SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                # 미체결 주문 제거
+                                CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                                switch3 = False; UpdateParameter(switch3, 'switch3')
                                 t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                                 message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                         SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        # 미체결 주문 제거
+                        CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                        switch3 = False; UpdateParameter(switch3, 'switch3')
                         t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                         message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                         with open('Log.txt', 'a') as fa:
@@ -513,6 +540,9 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                         if candle5['low'].iloc[-2] < candle5['low'].iloc[-1]:
                             BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            # 미체결 주문 제거
+                            CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                            switch3 = False; UpdateParameter(switch3, 'switch3')
                             t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
@@ -532,12 +562,18 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                             if abs(body5_) < abs(body5):
                                 BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                # 미체결 주문 제거
+                                CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                                switch3 = False; UpdateParameter(switch3, 'switch3')
                                 t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                                 message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle5['close'].iloc[-1] > indicator5['ma5'].iloc[-1]:
                         BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        # 미체결 주문 제거
+                        CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                        switch3 = False; UpdateParameter(switch3, 'switch3')
                         t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                         message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                         with open('Log.txt', 'a') as fa:
@@ -555,6 +591,9 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                         if candle10['low'].iloc[-2] < candle10['low'].iloc[-1]:
                             BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            # 미체결 주문 제거
+                            CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                            switch3 = False; UpdateParameter(switch3, 'switch3')
                             t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
@@ -574,12 +613,18 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                             if abs(body10_) < abs(body10):
                                 BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                # 미체결 주문 제거
+                                CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                                switch3 = False; UpdateParameter(switch3, 'switch3')
                                 t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                                 message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle10['close'].iloc[-1] > indicator10['ma5'].iloc[-1]:
                         BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        # 미체결 주문 제거
+                        CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                        switch3 = False; UpdateParameter(switch3, 'switch3')
                         t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                         message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                         with open('Log.txt', 'a') as fa:
@@ -596,6 +641,9 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                         if candle30['low'].iloc[-2] < candle30['low'].iloc[-1]:
                             BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            # 미체결 주문 제거
+                            CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                            switch3 = False; UpdateParameter(switch3, 'switch3')
                             t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
@@ -615,12 +663,18 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                             if abs(body30_) < abs(body30):
                                 BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                # 미체결 주문 제거
+                                CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                                switch3 = False; UpdateParameter(switch3, 'switch3')
                                 t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                                 message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                         BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        # 미체결 주문 제거
+                        CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
+                        switch3 = False; UpdateParameter(switch3, 'switch3')
                         t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
                         message = "{} {}".format(t, "종가청산"); SendMessage(message, discord); print(message)
                         with open('Log.txt', 'a') as fa:
