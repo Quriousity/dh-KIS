@@ -705,6 +705,8 @@ def StopLoss():
             # 포지션 정보 가져오기
             position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
             print(position, price, quantity)
+            with open('Log.txt', 'a') as fa:
+                fa.write('\n'); fa.write('{} {} {} {}'.format(t, position, price, quantity))
             # 포지션이 있으면
             if quantity > 0:
                 df = GetKOSPI200(appkey, appsecret, token, 3600, date); sleep(0.1)
