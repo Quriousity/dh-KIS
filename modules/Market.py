@@ -149,7 +149,7 @@ def CalculateMACD(df):
     ma_fast = df['close'].rolling(length_fast).mean()
     ma_slow = df['close'].rolling(length_slow).mean()
     macd = ma_fast - ma_slow
-    signal = df['close'].rolling(length_signal).mean()
+    signal = macd.rolling(length_signal).mean()
     df['macd'] = macd - signal 
     return df
 # 5분봉

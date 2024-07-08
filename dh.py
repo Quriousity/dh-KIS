@@ -118,7 +118,7 @@ def Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, comment):
     # 지정가 매도
     buy_sell, name, odno = SellLimit(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity, price+2); sleep(0.1)
     # 알림
-    t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
+    t = datetime.now(); t = t.strftime('%Y-%m-%d %H:%M:%S')
     message = "{} {}".format(t, comment); SendMessage(message, discord); print(message)
     with open('Log.txt', 'a') as fa:
         fa.write('\n'); fa.write(message)
@@ -131,8 +131,8 @@ def Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, comment):
     # 지정가 매수
     buy_sell, name, odno = BuyLimit(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity, price-2); sleep(0.1)
     # 알림
-    t = datetime.now(); t.strftime('%Y-%m-%d %H:%M:%S')
-    message = "{} {}".format(t, "comment"); SendMessage(message, discord); print(message)
+    t = datetime.now(); t = t.strftime('%Y-%m-%d %H:%M:%S')
+    message = "{} {}".format(t, comment); SendMessage(message, discord); print(message)
     with open('Log.txt', 'a') as fa:
         fa.write('\n'); fa.write(message)
 
@@ -162,9 +162,9 @@ def OpenPosition():
     body10_ = indicator10['close'].iloc[-2] - indicator10['open'].iloc[-2]
     body30_ = indicator30['close'].iloc[-2] - indicator30['open'].iloc[-2]
     # 최초봉
-    first5 = indicator5['close'].iloc[1] - indicator5['open'].iloc[1]
-    first10 = indicator10['close'].iloc[1] - indicator10['open'].iloc[1]
-    first30 = indicator30['close'].iloc[1] - indicator30['open'].iloc[1]
+    first5 = candle5['close'].iloc[0] - candle5['open'].iloc[0]
+    first10 = candle10['close'].iloc[0] - candle10['open'].iloc[0]
+    first30 = candle30['close'].iloc[0] - candle30['open'].iloc[0]
     # 현재분
     minute = datetime.now().minute
     m10 = [4, 14, 24, 34, 44, 54]
@@ -174,7 +174,7 @@ def OpenPosition():
         if After944() and minute in m30:
             if abs(body30_) < abs(body30):
                 if first30 > 0 and body30_ < 0 and body30 > 0:
-                    if candle30['low'].iloc[-1] < candle30['open'].iloc[1] and candle30['open'].iloc[1] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[1] + 0.5:
+                    if candle30['low'].iloc[-1] < candle30['open'].iloc[0] and candle30['open'].iloc[0] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[0] + 0.5:
                         if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                             if GetBeforeHigh(candle30):
                                 switch1 = False; switch2 = True; switch3 = True; switchLong = 30
@@ -184,9 +184,9 @@ def OpenPosition():
         if After914() and minute in m10:
             if abs(body10_) < abs(body10):
                 if first10 > 0 and body10_ < 0 and body10 > 0:
-                    if candle10['low'].iloc[-1] < candle10['open'].iloc[1] and candle10['open'].iloc[1] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[1] + 0.5:
+                    if candle10['low'].iloc[-1] < candle10['open'].iloc[0] and candle10['open'].iloc[0] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[0] + 0.5:
                         if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
-                            if GetBeforeHigh(candle10):
+                            if GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
                                 switch1 = False; switch2 = True; switch3 = True; switchLong = 10
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                                 Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략1 10분봉)")
@@ -194,9 +194,9 @@ def OpenPosition():
         if After914():
             if abs(body5_) < abs(body5):
                 if first5 > 0 and body5_ < 0 and body5 > 0:
-                    if candle5['low'].iloc[-1] < candle5['open'].iloc[1] and candle5['open'].iloc[1] < candle5['close'].iloc[-1] and candle5['close'].iloc[-1] < candle5['open'].iloc[1] + 0.5:
+                    if candle5['low'].iloc[-1] < candle5['open'].iloc[0] and candle5['open'].iloc[0] < candle5['close'].iloc[-1] and candle5['close'].iloc[-1] < candle5['open'].iloc[0] + 0.5:
                         if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
-                            if GetBeforeHigh(candle5):
+                            if GetBeforeHigh(candle5) and GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
                                 switch1 = False; switch2 = True; switch3 = True; switchLong = 5
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                                 Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략1 5분봉)")
@@ -204,7 +204,7 @@ def OpenPosition():
         if After944() and minute in m30:
             if abs(body30_) < abs(body30):
                 if first30 < 0 and body30_ > 0 and body30 < 0:
-                    if candle30['high'].iloc[-1] > candle30['open'].iloc[1] and candle30['open'].iloc[1] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[1] - 0.5:
+                    if candle30['high'].iloc[-1] > candle30['open'].iloc[0] and candle30['open'].iloc[0] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[0] - 0.5:
                         if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                             if GetBeforeLow(candle30):
                                 switch1 = False; switch2 = True; switch3 = True; switchShort = 30
@@ -214,9 +214,9 @@ def OpenPosition():
         if After914() and minute in m10:
             if abs(body10_) < abs(body10):
                 if first10 < 0 and body10_ > 0 and body10 < 0:
-                    if candle10['high'].iloc[-1] > candle10['open'].iloc[1] and candle10['open'].iloc[1] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[1] - 0.5:
+                    if candle10['high'].iloc[-1] > candle10['open'].iloc[0] and candle10['open'].iloc[0] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[0] - 0.5:
                         if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
-                            if GetBeforeLow(candle10):
+                            if GetBeforeLow(candle10) and GetBeforeLow(candle30):
                                 switch1 = False; switch2 = True; switch3 = True; switchShort = 10
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                                 Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략1 10분봉")
@@ -224,16 +224,16 @@ def OpenPosition():
         if After914():
             if abs(body5_) < abs(body5):
                 if first5 < 0 and body5_ > 0 and body5 < 0:
-                    if candle5['high'].iloc[-1] > candle5['open'].iloc[1] and candle5['open'].iloc[1] > candle5['close'].iloc[-1] and candle5['close'].iloc[-1] > candle5['open'].iloc[1] - 0.5:
+                    if candle5['high'].iloc[-1] > candle5['open'].iloc[0] and candle5['open'].iloc[0] > candle5['close'].iloc[-1] and candle5['close'].iloc[-1] > candle5['open'].iloc[0] - 0.5:
                         if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
-                            if GetBeforeLow(candle5):
+                            if GetBeforeLow(candle5) and GetBeforeLow(candle10) and GetBeforeLow(candle30):
                                 switch1 = False; switch2 = True; switch3 = True; switchShort = 5
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                                 Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략1 5분봉")
         # [전략2]30분봉, 롱
         if After944() and minute in m30:
             if abs(body30) < 1 and first30 > 0:
-                if candle30['low'].iloc[-1] < candle30['open'].iloc[1] and candle30['open'].iloc[1] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[1] + 0.5:
+                if candle30['low'].iloc[-1] < candle30['open'].iloc[0] and candle30['open'].iloc[0] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[0] + 0.5:
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                         if GetBeforeHigh(candle30):
                             switch1 = False; switch2 = True; switch3 = True; switchLong = 30
@@ -242,16 +242,16 @@ def OpenPosition():
         # [전략2]10분봉, 롱
         if After914() and minute in m10:
             if abs(body10) < 1 and first30 > 0:
-                if candle10['low'].iloc[-1] < candle10['open'].iloc[1] and candle10['open'].iloc[1] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[1] + 0.5:
+                if candle10['low'].iloc[-1] < candle10['open'].iloc[0] and candle10['open'].iloc[0] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[0] + 0.5:
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
-                        if GetBeforeHigh(candle10):
+                        if GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
                             switch1 = False; switch2 = True; switch3 = True; switchLong = 10
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                             Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략2 10분봉)")
         # [전략2]30분봉, 숏
         if After944() and minute in m30:
             if abs(body30) < 1 and first30 < 0:
-                if candle30['high'].iloc[-1] > candle30['open'].iloc[1] and candle30['open'].iloc[1] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[1] - 0.5:
+                if candle30['high'].iloc[-1] > candle30['open'].iloc[0] and candle30['open'].iloc[0] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[0] - 0.5:
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                         if GetBeforeLow(candle30):
                             switch1 = False; switch2 = True; switch3 = True; switchShort = 30
@@ -260,9 +260,9 @@ def OpenPosition():
         # [전략2]10분봉, 숏
         if After914() and minute in m10:
             if abs(body10) < 1 and first30 < 0:
-                if candle10['high'].iloc[-1] > candle10['open'].iloc[1] and candle10['open'].iloc[1] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[1] - 0.5:
+                if candle10['high'].iloc[-1] > candle10['open'].iloc[0] and candle10['open'].iloc[0] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[0] - 0.5:
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
-                        if GetBeforeLow(candle10):
+                        if GetBeforeLow(candle10) and GetBeforeLow(candle30):
                             switch1 = False; switch2 = True; switch3 = True; switchShort = 10
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                             Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략2 10분봉)")
@@ -272,7 +272,7 @@ def OpenPosition():
                 if body30_ < 0 and body30 > 0:
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                         if indicator30['ma20'].iloc[-1] < indicator30['ma10'].iloc[-1] and indicator30['ma10'].iloc[-1] < indicator30['ma5'].iloc[-1]:
-                            if candle30['open'].iloc[1] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[1] + 3:
+                            if candle30['open'].iloc[0] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[0] + 3:
                                 if GetBeforeHigh(candle30):
                                     switch1 = False; switch2 = True; switch3 = True; switchLong = 30
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
@@ -283,8 +283,8 @@ def OpenPosition():
                 if body10_ < 0 and body10 > 0:
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                         if indicator10['ma20'].iloc[-1] < indicator10['ma10'].iloc[-1] and indicator10['ma10'].iloc[-1] < indicator10['ma5'].iloc[-1]:
-                            if candle10['open'].iloc[1] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[1] + 3:
-                                if GetBeforeHigh(candle10):
+                            if candle10['open'].iloc[0] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[0] + 3:
+                                if GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
                                     switch1 = False; switch2 = True; switch3 = True; switchLong = 10
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                                     Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략3 10분봉)")
@@ -294,8 +294,8 @@ def OpenPosition():
                 if body5_ < 0 and body5 > 0:
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                         if indicator5['ma20'].iloc[-1] < indicator5['ma10'].iloc[-1] and indicator5['ma10'].iloc[-1] < indicator5['ma5'].iloc[-1]:
-                            if candle5['open'].iloc[1] < candle5['close'].iloc[-1] and candle5['close'].iloc[-1] < candle5['open'].iloc[1] + 3:
-                                if GetBeforeHigh(candle5):
+                            if candle5['open'].iloc[0] < candle5['close'].iloc[-1] and candle5['close'].iloc[-1] < candle5['open'].iloc[0] + 3:
+                                if GetBeforeHigh(candle5) and GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
                                     switch1 = False; switch2 = True; switch3 = True; switchLong = 5
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
                                     Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매수(전략3 5분봉)")
@@ -305,7 +305,7 @@ def OpenPosition():
                 if body30_ > 0 and body30 < 0:
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                         if indicator30['ma20'].iloc[-1] > indicator30['ma10'].iloc[-1] and indicator30['ma10'].iloc[-1] > indicator30['ma5'].iloc[-1]:
-                            if candle30['open'].iloc[1] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[1] - 3:
+                            if candle30['open'].iloc[0] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[0] - 3:
                                 if GetBeforeLow(candle30):
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 30
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
@@ -316,8 +316,8 @@ def OpenPosition():
                 if body10_ > 0 and body10 < 0:
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                         if indicator10['ma20'].iloc[-1] > indicator10['ma10'].iloc[-1] and indicator10['ma10'].iloc[-1] > indicator10['ma5'].iloc[-1]:
-                            if candle10['open'].iloc[1] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[1] - 3:
-                                if GetBeforeLow(candle10):
+                            if candle10['open'].iloc[0] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[0] - 3:
+                                if GetBeforeLow(candle10) and GetBeforeLow(candle30):
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 10
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                                     Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략3 10분봉)")
@@ -327,14 +327,14 @@ def OpenPosition():
                 if body5_ > 0 and body5 < 0:
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                         if indicator5['ma20'].iloc[-1] > indicator5['ma10'].iloc[-1] and indicator5['ma10'].iloc[-1] > indicator5['ma5'].iloc[-1]:
-                            if candle5['open'].iloc[1] > candle5['close'].iloc[-1] and candle5['close'].iloc[-1] > candle5['open'].iloc[1] - 3:
-                                if GetBeforeLow(candle5):
+                            if candle5['open'].iloc[0] > candle5['close'].iloc[-1] and candle5['close'].iloc[-1] > candle5['open'].iloc[0] - 3:
+                                if GetBeforeLow(candle5) and GetBeforeLow(candle10) and GetBeforeLow(candle30):
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 5
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
                                     Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도3(전략3 5분봉)")
 
 def ClosePosition():
-    global switch2, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, discord
+    global switch2, switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, discord
     if switch2:
         # 포지션 정보 가져오기
         position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
