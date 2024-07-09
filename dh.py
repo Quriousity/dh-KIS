@@ -70,7 +70,7 @@ CheckParameter(switchLong, 'switchLong')
 CheckParameter(switchShort, 'switchShort')
 
 def ResetToday():
-    global appkey, appsecret, token, token, switch1, switch2, switch3, switchLong, switchShort
+    global appkey, appsecret, token, token, switch1, switch2, switch3, switchLong, switchShort, odno
     # 오늘 날짜
     date = datetime.now(); date = datetime.strftime(date, '%Y%m%d')
     # 개장일이면
@@ -98,12 +98,12 @@ def ResetToday():
         switchShort = 0
         # 포지션 정보 가져오기
         position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
-        CheckParameter(switch1, 'switch1')
-        CheckParameter(switch2, 'switch2')
-        CheckParameter(switch3, 'switch3')
-        CheckParameter(odno, 'odno')
-        CheckParameter(switchLong, 'switchLong')
-        CheckParameter(switchShort, 'switchShort')
+        UpdateParameter(switch1, 'switch1')
+        UpdateParameter(switch2, 'switch2')
+        UpdateParameter(switch3, 'switch3')
+        UpdateParameter(odno, 'odno')
+        UpdateParameter(switchLong, 'switchLong')
+        UpdateParameter(switchShort, 'switchShort')
     # 휴장일이면
     else:
         # 진입, 청산, 스탑 스위치
