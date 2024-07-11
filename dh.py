@@ -356,8 +356,12 @@ def OpenPosition():
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                         WriteLog('30분봉 5일선 유지')
+                        WriteLog('{} {} {}'.format(indicator30['ma20'].iloc[-1], indicator30['ma10'].iloc[-1], indicator30['ma5'].iloc[-1]))
                         if indicator30['ma20'].iloc[-1] < indicator30['ma10'].iloc[-1] and indicator30['ma10'].iloc[-1] < indicator30['ma5'].iloc[-1]:
+                            WriteLog('정배열')
+                            WriteLog('{} {}'.format(candle30['open'].iloc[0], candle30['close'].iloc[-1]))
                             if candle30['open'].iloc[0] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[0] + 3:
+                                WriteLog('시가대비3포인트이내')                            
                                 if GetBeforeHigh(candle30):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchLong = 30
@@ -373,8 +377,12 @@ def OpenPosition():
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                         WriteLog('30분봉 5일선 유지')
+                        WriteLog('{} {} {}'.format(indicator10['ma20'].iloc[-1], indicator10['ma10'].iloc[-1], indicator10['ma5'].iloc[-1]))
                         if indicator10['ma20'].iloc[-1] < indicator10['ma10'].iloc[-1] and indicator10['ma10'].iloc[-1] < indicator10['ma5'].iloc[-1]:
+                            WriteLog('정배열')
+                            WriteLog('{} {}'.format(candle10['open'].iloc[0], candle10['close'].iloc[-1]))
                             if candle10['open'].iloc[0] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[0] + 3:
+                                WriteLog('시가대비3포인트이내')                            
                                 if GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchLong = 10
@@ -390,8 +398,12 @@ def OpenPosition():
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                         WriteLog('30분봉 5일선 유지')
+                        WriteLog('{} {} {}'.format(indicator5['ma20'].iloc[-1], indicator5['ma10'].iloc[-1], indicator5['ma5'].iloc[-1]))
                         if indicator5['ma20'].iloc[-1] < indicator5['ma10'].iloc[-1] and indicator5['ma10'].iloc[-1] < indicator5['ma5'].iloc[-1]:
+                            WriteLog('정배열')
+                            WriteLog('{} {}'.format(candle5['open'].iloc[0], candle5['close'].iloc[-1]))
                             if candle5['open'].iloc[0] < candle5['close'].iloc[-1] and candle5['close'].iloc[-1] < candle5['open'].iloc[0] + 3:
+                                WriteLog('시가대비3포인트이내')                            
                                 if GetBeforeHigh(candle5) and GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchLong = 5
@@ -407,8 +419,12 @@ def OpenPosition():
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                         WriteLog('30분봉 5일선 유지')
+                        WriteLog('{} {} {}'.format(indicator30['ma20'].iloc[-1], indicator30['ma10'].iloc[-1], indicator30['ma5'].iloc[-1]))
                         if indicator30['ma20'].iloc[-1] > indicator30['ma10'].iloc[-1] and indicator30['ma10'].iloc[-1] > indicator30['ma5'].iloc[-1]:
+                            WriteLog('정배열')
+                            WriteLog('{} {}'.format(candle30['open'].iloc[0], candle30['close'].iloc[-1]))
                             if candle30['open'].iloc[0] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[0] - 3:
+                                WriteLog('시가대비3포인트이내')                            
                                 if GetBeforeLow(candle30):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 30
@@ -424,8 +440,12 @@ def OpenPosition():
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                         WriteLog('30분봉 5일선 유지')
+                        WriteLog('{} {} {}'.format(indicator10['ma20'].iloc[-1], indicator10['ma10'].iloc[-1], indicator10['ma5'].iloc[-1]))
                         if indicator10['ma20'].iloc[-1] > indicator10['ma10'].iloc[-1] and indicator10['ma10'].iloc[-1] > indicator10['ma5'].iloc[-1]:
+                            WriteLog('정배열')
+                            WriteLog('{} {}'.format(candle10['open'].iloc[0], candle10['close'].iloc[-1]))
                             if candle10['open'].iloc[0] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[0] - 3:
+                                WriteLog('시가대비3포인트이내')                            
                                 if GetBeforeLow(candle10) and GetBeforeLow(candle30):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 10
@@ -441,8 +461,12 @@ def OpenPosition():
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                         WriteLog('30분봉 5일선 유지')
+                        WriteLog('{} {} {}'.format(indicator5['ma20'].iloc[-1], indicator5['ma10'].iloc[-1], indicator5['ma5'].iloc[-1]))
                         if indicator5['ma20'].iloc[-1] > indicator5['ma10'].iloc[-1] and indicator5['ma10'].iloc[-1] > indicator5['ma5'].iloc[-1]:
+                            WriteLog('정배열')
+                            WriteLog('{} {}'.format(candle5['open'].iloc[0], candle5['close'].iloc[-1]))
                             if candle5['open'].iloc[0] > candle5['close'].iloc[-1] and candle5['close'].iloc[-1] > candle5['open'].iloc[0] - 3:
+                                WriteLog('시가대비3포인트이내')                            
                                 if GetBeforeLow(candle5) and GetBeforeLow(candle10) and GetBeforeLow(candle30):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 5
