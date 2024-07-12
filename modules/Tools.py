@@ -25,10 +25,12 @@ def GetBeforeHigh(candle):
     if body > 0:
         n = 0
         for b, h in zip(candle['body'].iloc[:-1][::-1], candle['high'].iloc[:-1][::-1]):
-            if b > 0 and candle['high'].iloc[-1] > h:
-                if n == 0:
-                    return True
-            n += 1
+            if b > 0:
+                if candle['high'].iloc[-1] > h:
+                    if n == 0:
+                        return True
+                else:
+                    n += 1
     return False
 # 직전 하락봉 저가 돌파
 def GetBeforeLow(candle):
@@ -37,10 +39,12 @@ def GetBeforeLow(candle):
     if body < 0:
         n = 0
         for b, l in zip(candle['body'].iloc[:-1][::-1], candle['low'].iloc[:-1][::-1]):
-            if b < 0 and candle['low'].iloc[-1] < l:
-                if n == 0:
-                    return True
-            n += 1
+            if b < 0:
+                if candle['low'].iloc[-1] < l:
+                    if n == 0:
+                        return True
+                else:
+                    n += 1
     return False
 # 9시 14분 이후
 def After914():
