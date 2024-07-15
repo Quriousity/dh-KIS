@@ -1,7 +1,11 @@
 mk
 modules/__pycache__
 conf.json
+conf2.json
 test_Buy_Sell.py
 test_Buy.py
 test_Modify.py
+test_Sell_Buy.py
+test_Sell.py
+test_position.py
 dh_test.py

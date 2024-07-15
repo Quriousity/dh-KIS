@@ -60,7 +60,7 @@ switchLong = 0
 # 숏 포지션
 switchShort = 0
 # 포지션 정보 가져오기
-position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
+position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker); sleep(0.1)
 # 모든 스위치, 주문정보 확인하기 (기존 정보 없으면 초기화)
 CheckParameter(switch1, 'switch1')
 CheckParameter(switch2, 'switch2')
@@ -75,7 +75,7 @@ def WriteLog(message):
         fa.write('\n'); fa.write(message)
 
 def ResetToday():
-    global appkey, appsecret, token, token, switch1, switch2, switch3, switchLong, switchShort, odno
+    global appkey, appsecret, token, token, switch1, switch2, switch3, switchLong, switchShort, odno, ticker
     # 오늘 날짜
     date = datetime.now(); date = datetime.strftime(date, '%Y%m%d')
     # 개장일이면
@@ -102,7 +102,7 @@ def ResetToday():
         # 숏 포지션
         switchShort = 0
         # 포지션 정보 가져오기
-        position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
+        position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker); sleep(0.1)
         UpdateParameter(switch1, 'switch1')
         UpdateParameter(switch2, 'switch2')
         UpdateParameter(switch3, 'switch3')
@@ -119,7 +119,7 @@ def Buy(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, comment):
     # 시장가 매수
     BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty); sleep(0.1)
     # 포지션 정보 가져오기
-    position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
+    position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker); sleep(0.1)
     # 지정가 매도
     buy_sell, name, odno = SellLimit(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity, price+2); sleep(0.1)
     # 알림
@@ -132,7 +132,7 @@ def Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, comment):
     # 시장가 매도
     SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty); sleep(0.1)
     # 포지션 정보 가져오기
-    position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
+    position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker); sleep(0.1)
     # 지정가 매수
     buy_sell, name, odno = BuyLimit(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity, price-2); sleep(0.1)
     # 알림
@@ -142,7 +142,7 @@ def Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, comment):
         fa.write('\n'); fa.write(message)
 
 def OpenPosition():
-    global switch1, switch2, switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, discord
+    global switch1, switch2, switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, discord, ticker
     '''
     보조지표 캔들
         indicator5, indicator10, indicator30
@@ -474,10 +474,10 @@ def OpenPosition():
                                     Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도3(전략3 5분봉)")
 
 def ClosePosition():
-    global switch2, switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, discord
+    global switch2, switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, discord, ticker
     if switch2:
         # 포지션 정보 가져오기
-        position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
+        position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker); sleep(0.1)
         # 포지션이 있으면
         if quantity > 0:
             '''
@@ -515,6 +515,7 @@ def ClosePosition():
                     if body5 > 0:
                         if abs(body5) < 1:
                             buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1)
+                            WriteLog('전양봉고점돌파')
                             # 알림
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격+1)"); SendMessage(message, discord); print(message)
@@ -822,9 +823,9 @@ def ClosePosition():
 
 # 포지션 종료
 def Close1515():
-    global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno
+    global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, ticker
     # 포지션 정보 가져오기
-    position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
+    position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker); sleep(0.1)
     # 포지션이 있으면
     if quantity > 0:
         if position == "매수":
@@ -836,14 +837,14 @@ def Close1515():
         switch3 = False; UpdateParameter(switch3, 'switch3')
 
 def StopLoss():
-    global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno
+    global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, ticker
     t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
     print(t)
     if switch3:
         second = datetime.now().second
         if second != 58:
             # 포지션 정보 가져오기
-            position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD); sleep(0.1)
+            position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker); sleep(0.1)
             print(position, price, quantity)
             with open('Log.txt', 'a') as fa:
                 fa.write('\n'); fa.write('{} {} {} {}'.format(t, position, price, quantity))

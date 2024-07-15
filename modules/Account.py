@@ -1,7 +1,7 @@
 import requests
 
 # 잔고 조회
-def GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD):
+def GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker):
     '''
     Method          GET
     실전 Domain      https://openapi.koreainvestment.com:9443
@@ -39,18 +39,15 @@ def GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD):
     response = requests.get(url, headers=headers, params=params)
     if response.status_code == 200:
         result = response.json()['output1']
-        if len(result) > 0:
-            # 포지션
-            position = result[0]['sll_buy_dvsn_name']
-            if position == "SLL":
-                position = "매도"
-            elif position == "BUY":
-                position = "매수"
-            # 가격
-            price = round(float(result[0]['ccld_avg_unpr1']), 2)
-            # 수량
-            qty = round(int(result[0]['cblc_qty']))
-            return position, price, qty
+        for r in result:
+            if r['shtn_pdno'] == ticker:
+                # 포지션
+                position = r['sll_buy_dvsn_name']
+                # 가격
+                price = round(float(result[0]['ccld_avg_unpr1']), 2)
+                # 수량
+                qty = round(int(result[0]['cblc_qty']))
+                return position, price, qty
         return 0, 0, 0
     else:
         print('error (GetBalance)')
