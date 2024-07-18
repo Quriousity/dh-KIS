@@ -155,27 +155,27 @@ def OpenPosition():
     최초봉 (종가 - 시가)
         first5, first10, first30
     '''
-    candle5, indicator5 = Get5(appkey, appsecret, token, date)  # 5분봉
-    candle10, indicator10 = Get10(appkey, appsecret, token, date)  # 10분봉
-    candle30, indicator30 = Get30(appkey, appsecret, token, date)  # 30분봉
-    # 현재봉
-    body5 = indicator5['close'].iloc[-1] - indicator5['open'].iloc[-1]
-    body10 = indicator10['close'].iloc[-1] - indicator10['open'].iloc[-1]
-    body30 = indicator30['close'].iloc[-1] - indicator30['open'].iloc[-1]
-    # 직전봉
-    body5_ = indicator5['close'].iloc[-2] - indicator5['open'].iloc[-2]
-    body10_ = indicator10['close'].iloc[-2] - indicator10['open'].iloc[-2]
-    body30_ = indicator30['close'].iloc[-2] - indicator30['open'].iloc[-2]
-    # 최초봉
-    first5 = candle5['close'].iloc[0] - candle5['open'].iloc[0]
-    first10 = candle10['close'].iloc[0] - candle10['open'].iloc[0]
-    first30 = candle30['close'].iloc[0] - candle30['open'].iloc[0]
-    # 현재분
-    minute = datetime.now().minute
-    m10 = [4, 14, 24, 34, 44, 54]
-    m30 = [14, 44]
-    t = datetime.now()
     if switch1:
+        candle5, indicator5 = Get5(appkey, appsecret, token, date)  # 5분봉
+        candle10, indicator10 = Get10(appkey, appsecret, token, date)  # 10분봉
+        candle30, indicator30 = Get30(appkey, appsecret, token, date)  # 30분봉
+        # 현재봉
+        body5 = indicator5['close'].iloc[-1] - indicator5['open'].iloc[-1]
+        body10 = indicator10['close'].iloc[-1] - indicator10['open'].iloc[-1]
+        body30 = indicator30['close'].iloc[-1] - indicator30['open'].iloc[-1]
+        # 직전봉
+        body5_ = indicator5['close'].iloc[-2] - indicator5['open'].iloc[-2]
+        body10_ = indicator10['close'].iloc[-2] - indicator10['open'].iloc[-2]
+        body30_ = indicator30['close'].iloc[-2] - indicator30['open'].iloc[-2]
+        # 최초봉
+        first5 = candle5['close'].iloc[0] - candle5['open'].iloc[0]
+        first10 = candle10['close'].iloc[0] - candle10['open'].iloc[0]
+        first30 = candle30['close'].iloc[0] - candle30['open'].iloc[0]
+        # 현재분
+        minute = datetime.now().minute
+        m10 = [4, 14, 24, 34, 44, 54]
+        m30 = [14, 44]
+        t = datetime.now()
         # [전략1]30분봉, 롱
         if After944() and minute in m30:
             WriteLog('{} {}'.format(t, '매수(전략1 30분봉)'))
@@ -471,7 +471,7 @@ def OpenPosition():
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 5
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
-                                    Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도3(전략3 5분봉)")
+                                    Sell(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, qty, "매도(전략3 5분봉)")
 
 def ClosePosition():
     global switch2, switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, discord, ticker
@@ -522,7 +522,7 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle5['high'].iloc[-2] > candle5['high'].iloc[-1]:
-                            SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                             switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -545,7 +545,7 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body5_) < abs(body5):
-                                SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                                 switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -555,7 +555,7 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle5['close'].iloc[-1] < indicator5['ma5'].iloc[-1]:
-                        SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                         switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -575,7 +575,7 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle10['high'].iloc[-2] > candle10['high'].iloc[-1]:
-                            SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                             switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -598,7 +598,7 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body10_) < abs(body10):
-                                SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                                 switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -607,7 +607,8 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle10['close'].iloc[-1] < indicator10['ma5'].iloc[-1]:
-                        SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                         switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -628,7 +629,8 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle30['high'].iloc[-2] > candle30['high'].iloc[-1]:
-                            SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            WriteLog(str(a))
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                             switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -650,7 +652,8 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body30_) < abs(body30):
-                                SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                WriteLog(str(a))
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                                 switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -659,7 +662,8 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
-                        SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                         switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -680,7 +684,8 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle5['low'].iloc[-2] < candle5['low'].iloc[-1]:
-                            BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            WriteLog(str(a))
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                             switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -702,7 +707,8 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body5_) < abs(body5):
-                                BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                WriteLog(str(a))
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                                 switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -711,7 +717,8 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle5['close'].iloc[-1] > indicator5['ma5'].iloc[-1]:
-                        BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                         switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -731,7 +738,8 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle10['low'].iloc[-2] < candle10['low'].iloc[-1]:
-                            BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            WriteLog(str(a))
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                             switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -753,7 +761,8 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body10_) < abs(body10):
-                                BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                WriteLog(str(a))
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                                 switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -762,7 +771,8 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle10['close'].iloc[-1] > indicator10['ma5'].iloc[-1]:
-                        BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                         switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -781,7 +791,8 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle30['low'].iloc[-2] < candle30['low'].iloc[-1]:
-                            BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            WriteLog(str(a))
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                             switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -803,7 +814,8 @@ def ClosePosition():
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body30_) < abs(body30):
-                                BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                WriteLog(str(a))
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                                 switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -812,7 +824,8 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
-                        BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                         switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -826,12 +839,15 @@ def Close1515():
     global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, ticker
     # 포지션 정보 가져오기
     position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker); sleep(0.1)
+    WriteLog('{} {} {} {}'.format('15:15', position, price, quantity))
     # 포지션이 있으면
     if quantity > 0:
         if position == "매수":
-            SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+            WriteLog(str(a))
         elif position == "매도":
-            BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+            WriteLog(str(a))
         # 미체결 주문 제거
         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
         switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -840,9 +856,10 @@ def StopLoss():
     global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, ticker
     t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
     print(t)
+    WriteLog('{} {} {} {}'.format(t, switch3))
     if switch3:
         second = datetime.now().second
-        if second != 58:
+        if second < 56 or second > 58:
             # 포지션 정보 가져오기
             position, price, quantity = GetBalance(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker); sleep(0.1)
             print(position, price, quantity)
@@ -854,13 +871,15 @@ def StopLoss():
                 print(df)
                 if position == "매수":
                     if df['close'].iloc[-1] < price - 1:
-                        SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
+                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
+                        WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                         switch3 = False; UpdateParameter(switch3, 'switch3')
                 elif position == "매도":
                     if df['close'].iloc[-1] > price + 1:
-                        BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
+                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
+                        WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                         switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -869,24 +888,27 @@ def StopLoss():
 m5 = ["04", "09", "14", "19", "24", "29", "34", "39", "44", "49", "54", "59"]
 # m10 = ["04", "14", "24", "34", "44", "54"]
 # m30 = ["14", "44",]
-scheduleOC = [] 
+scheduleOpen = [] 
+scheduleClose = [] 
 for i in range(9,15):
     if i == 9:
         h = '09'
     else:
         h = str(i)
     for m in m5:
-        scheduleOC.append('{}:{}:{}'.format(h, m, 58))
+        scheduleOpen.append('{}:{}:{}'.format(h, m, 58))
+        scheduleClose.append('{}:{}:{}'.format(h, m, 57))
 
 # 09시 Reset
 schedule.every().day.at("09:00:00").do(ResetToday)
 
-schedule.every().seconds.do(StopLoss)
-for i in scheduleOC:
-    schedule.every().day.at(i).do(ClosePosition)
+schedule.every(2).seconds.do(StopLoss)
+for i in scheduleOpen:
     schedule.every().day.at(i).do(OpenPosition)
+for i in scheduleClose:
+    schedule.every().day.at(i).do(ClosePosition)
 # 15시 15분 강제청산
-schedule.every().day.at("15:15:00").do(Close1515)
+schedule.every().day.at("15:15:01").do(Close1515)
 
 while True:
     schedule.run_pending()
