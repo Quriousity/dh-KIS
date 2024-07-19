@@ -18,10 +18,23 @@ def UpdateParameter(parameter, parameterName):
     with open('{}.pickle'.format(parameterName), 'wb') as fw:
         pickle.dump(parameter, fw)
 
+def WriteCandles(candle, candleName):
+    if path.exists('./{}.pickle'.format(candleName)):
+        with open('{}.pickle'.format(candleName), 'rb') as fr:
+            result = pickle.load(fr)
+        result.append(candle)
+        with open('{}.pickle'.format(candleName), 'wb') as fw:
+            pickle.dump(result, fw)
+    else:
+        result = [candle]
+        with open('{}.pickle'.format(candleName), 'wb') as fw:
+            pickle.dump(result, fw)
+
 # 직전 상승봉 고가 돌파
-def GetBeforeHigh(candle):
+def GetBeforeHigh(candle, candleName):
     candle['body'] = candle['close'] - candle['open']
     body = candle['close'].iloc[-1] - candle['open'].iloc[-1]
+    WriteCandles(candle, candleName)
     if body > 0:
         n = 0
         for b, h in zip(candle['body'].iloc[:-1][::-1], candle['high'].iloc[:-1][::-1]):
@@ -33,9 +46,10 @@ def GetBeforeHigh(candle):
                     n += 1
     return False
 # 직전 하락봉 저가 돌파
-def GetBeforeLow(candle):
+def GetBeforeLow(candle, candleNmae):
     candle['body'] = candle['close'] - candle['open']
     body = candle['close'].iloc[-1] - candle['open'].iloc[-1]
+    WriteCandles(candle, candleNmae)
     if body < 0:
         n = 0
         for b, l in zip(candle['body'].iloc[:-1][::-1], candle['low'].iloc[:-1][::-1]):
@@ -46,6 +60,7 @@ def GetBeforeLow(candle):
                 else:
                     n += 1
     return False
+
 # 9시 14분 이후
 def After914():
     t = datetime.now()

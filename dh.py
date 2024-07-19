@@ -156,9 +156,9 @@ def OpenPosition():
         first5, first10, first30
     '''
     if switch1:
-        candle5, indicator5 = Get5(appkey, appsecret, token, date)  # 5분봉
-        candle10, indicator10 = Get10(appkey, appsecret, token, date)  # 10분봉
-        candle30, indicator30 = Get30(appkey, appsecret, token, date)  # 30분봉
+        candle5, indicator5 = Get5(appkey, appsecret, token, date); sleep(0.1)  # 5분봉
+        candle10, indicator10 = Get10(appkey, appsecret, token, date); sleep(0.1)  # 10분봉
+        candle30, indicator30 = Get30(appkey, appsecret, token, date); sleep(0.1) # 30분봉
         # 현재봉
         body5 = indicator5['close'].iloc[-1] - indicator5['open'].iloc[-1]
         body10 = indicator10['close'].iloc[-1] - indicator10['open'].iloc[-1]
@@ -189,7 +189,7 @@ def OpenPosition():
                         WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                         if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                             WriteLog('30분봉 5일선 유지')
-                            if GetBeforeHigh(candle30):
+                            if GetBeforeHigh(candle30, 'candle30'):
                                 WriteLog('전양봉고점돌파')
                                 switch1 = False; switch2 = True; switch3 = True; switchLong = 30
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
@@ -207,7 +207,7 @@ def OpenPosition():
                         WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                         if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                             WriteLog('30분봉 5일선 유지')
-                            if GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
+                            if GetBeforeHigh(candle10, 'candle10') and GetBeforeHigh(candle30, 'candle30'):
                                 WriteLog('전양봉고점돌파')
                                 switch1 = False; switch2 = True; switch3 = True; switchLong = 10
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
@@ -225,7 +225,7 @@ def OpenPosition():
                         WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                         if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                             WriteLog('30분봉 5일선 유지')
-                            if GetBeforeHigh(candle5) and GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
+                            if GetBeforeHigh(candle5, 'candle5') and GetBeforeHigh(candle10, 'candle10') and GetBeforeHigh(candle30, 'candle30'):
                                 WriteLog('전양봉고점돌파')
                                 switch1 = False; switch2 = True; switch3 = True; switchLong = 5
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
@@ -243,7 +243,7 @@ def OpenPosition():
                         WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                         if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                             WriteLog('30분봉 5일선 유지')
-                            if GetBeforeLow(candle30):
+                            if GetBeforeLow(candle30, 'candle30'):
                                 WriteLog('전양봉고점돌파')
                                 switch1 = False; switch2 = True; switch3 = True; switchShort = 30
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
@@ -261,7 +261,7 @@ def OpenPosition():
                         WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                         if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                             WriteLog('30분봉 5일선 유지')
-                            if GetBeforeLow(candle10) and GetBeforeLow(candle30):
+                            if GetBeforeLow(candle10, 'candle10') and GetBeforeLow(candle30, 'candle30'):
                                 WriteLog('전양봉고점돌파')
                                 switch1 = False; switch2 = True; switch3 = True; switchShort = 10
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
@@ -279,7 +279,7 @@ def OpenPosition():
                         WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                         if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                             WriteLog('30분봉 5일선 유지')
-                            if GetBeforeLow(candle5) and GetBeforeLow(candle10) and GetBeforeLow(candle30):
+                            if GetBeforeLow(candle5, 'candle5') and GetBeforeLow(candle10, 'candle10') and GetBeforeLow(candle30, 'candle30'):
                                 WriteLog('전양봉고점돌파')
                                 switch1 = False; switch2 = True; switch3 = True; switchShort = 5
                                 UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
@@ -295,7 +295,7 @@ def OpenPosition():
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
                         WriteLog('30분봉 5일선 유지')
-                        if GetBeforeHigh(candle30):
+                        if GetBeforeHigh(candle30, 'candle30'):
                             WriteLog('전양봉고점돌파')
                             switch1 = False; switch2 = True; switch3 = True; switchLong = 30
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
@@ -310,7 +310,7 @@ def OpenPosition():
                     WriteLog('저가<시가<종가<시가+0.5')
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
-                        if GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
+                        if GetBeforeHigh(candle10, 'candle10') and GetBeforeHigh(candle30, 'candle30'):
                             WriteLog('전양봉고점돌파')
                             switch1 = False; switch2 = True; switch3 = True; switchLong = 10
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
@@ -325,7 +325,7 @@ def OpenPosition():
                     WriteLog('고가>시가>종가>시가-0.5')
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
-                        if GetBeforeLow(candle30):
+                        if GetBeforeLow(candle30, 'candle30'):
                             WriteLog('전양봉고점돌파')
                             switch1 = False; switch2 = True; switch3 = True; switchShort = 30
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
@@ -341,7 +341,7 @@ def OpenPosition():
                     WriteLog('{} {}'.format(candle30['close'].iloc[-1], indicator30['ma5'].iloc[-1]))
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
                         WriteLog('30분봉 5일선 유지')
-                        if GetBeforeLow(candle10) and GetBeforeLow(candle30):
+                        if GetBeforeLow(candle10, 'candle10') and GetBeforeLow(candle30, 'candle30'):
                             WriteLog('전양봉고점돌파')
                             switch1 = False; switch2 = True; switch3 = True; switchShort = 10
                             UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
@@ -362,7 +362,7 @@ def OpenPosition():
                             WriteLog('{} {}'.format(candle30['open'].iloc[0], candle30['close'].iloc[-1]))
                             if candle30['open'].iloc[0] < candle30['close'].iloc[-1] and candle30['close'].iloc[-1] < candle30['open'].iloc[0] + 3:
                                 WriteLog('시가대비3포인트이내')                            
-                                if GetBeforeHigh(candle30):
+                                if GetBeforeHigh(candle30, 'candle30'):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchLong = 30
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
@@ -383,7 +383,7 @@ def OpenPosition():
                             WriteLog('{} {}'.format(candle10['open'].iloc[0], candle10['close'].iloc[-1]))
                             if candle10['open'].iloc[0] < candle10['close'].iloc[-1] and candle10['close'].iloc[-1] < candle10['open'].iloc[0] + 3:
                                 WriteLog('시가대비3포인트이내')                            
-                                if GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
+                                if GetBeforeHigh(candle10, 'candle10') and GetBeforeHigh(candle30, 'candle30'):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchLong = 10
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
@@ -404,7 +404,7 @@ def OpenPosition():
                             WriteLog('{} {}'.format(candle5['open'].iloc[0], candle5['close'].iloc[-1]))
                             if candle5['open'].iloc[0] < candle5['close'].iloc[-1] and candle5['close'].iloc[-1] < candle5['open'].iloc[0] + 3:
                                 WriteLog('시가대비3포인트이내')                            
-                                if GetBeforeHigh(candle5) and GetBeforeHigh(candle10) and GetBeforeHigh(candle30):
+                                if GetBeforeHigh(candle5, 'candle5') and GetBeforeHigh(candle10, 'candle10') and GetBeforeHigh(candle30, 'candle30'):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchLong = 5
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchLong, 'switchLong')
@@ -425,7 +425,7 @@ def OpenPosition():
                             WriteLog('{} {}'.format(candle30['open'].iloc[0], candle30['close'].iloc[-1]))
                             if candle30['open'].iloc[0] > candle30['close'].iloc[-1] and candle30['close'].iloc[-1] > candle30['open'].iloc[0] - 3:
                                 WriteLog('시가대비3포인트이내')                            
-                                if GetBeforeLow(candle30):
+                                if GetBeforeLow(candle30, 'candle30'):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 30
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
@@ -446,7 +446,7 @@ def OpenPosition():
                             WriteLog('{} {}'.format(candle10['open'].iloc[0], candle10['close'].iloc[-1]))
                             if candle10['open'].iloc[0] > candle10['close'].iloc[-1] and candle10['close'].iloc[-1] > candle10['open'].iloc[0] - 3:
                                 WriteLog('시가대비3포인트이내')                            
-                                if GetBeforeLow(candle10) and GetBeforeLow(candle30):
+                                if GetBeforeLow(candle10, 'candle10') and GetBeforeLow(candle30, 'candle30'):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 10
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
@@ -467,7 +467,7 @@ def OpenPosition():
                             WriteLog('{} {}'.format(candle5['open'].iloc[0], candle5['close'].iloc[-1]))
                             if candle5['open'].iloc[0] > candle5['close'].iloc[-1] and candle5['close'].iloc[-1] > candle5['open'].iloc[0] - 3:
                                 WriteLog('시가대비3포인트이내')                            
-                                if GetBeforeLow(candle5) and GetBeforeLow(candle10) and GetBeforeLow(candle30):
+                                if GetBeforeLow(candle5, 'candle5') and GetBeforeLow(candle10, 'candle10') and GetBeforeLow(candle30, 'candle30'):
                                     WriteLog('전양봉고점돌파')
                                     switch1 = False; switch2 = True; switch3 = True; switchShort = 5
                                     UpdateParameter(switch1, 'switch1'); UpdateParameter(switch2, 'switch2'); UpdateParameter(switch3, 'switch3'); UpdateParameter(switchShort, 'switchShort')
@@ -492,9 +492,9 @@ def ClosePosition():
             최초봉 (종가 - 시가)
                 first5, first10, first30
             '''
-            candle5, indicator5 = Get5(appkey, appsecret, token, date)  # 5분봉
-            candle10, indicator10 = Get10(appkey, appsecret, token, date)  # 10분봉
-            candle30, indicator30 = Get30(appkey, appsecret, token, date)  # 30분봉
+            candle5, indicator5 = Get5(appkey, appsecret, token, date); sleep(0.1)  # 5분봉
+            candle10, indicator10 = Get10(appkey, appsecret, token, date); sleep(0.1)  # 10분봉
+            candle30, indicator30 = Get30(appkey, appsecret, token, date); sleep(0.1)  # 30분봉
             # 현재봉
             body5 = candle5['close'].iloc[-1] - candle5['open'].iloc[-1]
             body10 = candle10['close'].iloc[-1] - candle10['open'].iloc[-1]
@@ -514,15 +514,15 @@ def ClosePosition():
                     switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body5 > 0:
                         if abs(body5) < 1:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1)
-                            WriteLog('전양봉고점돌파')
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             # 알림
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격+1)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle5['high'].iloc[-2] > candle5['high'].iloc[-1]:
-                            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
+                            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)); sleep(0.1)
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                             switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -533,19 +533,21 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                     if body5 < 0:
                         if candle5['close'].iloc[-1] > indicator5['ma5'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+0.5)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+0.5); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격+0.5)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if max(candle5['high'].iloc[:-1]) < candle5['high'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body5_) < abs(body5):
-                                a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
+                                a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)); sleep(0.1)
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                                 switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -555,7 +557,7 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle5['close'].iloc[-1] < indicator5['ma5'].iloc[-1]:
-                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
+                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)); sleep(0.1)
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                         switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -569,13 +571,14 @@ def ClosePosition():
                     switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body10 > 0:
                         if abs(body10) < 1:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격+1)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle10['high'].iloc[-2] > candle10['high'].iloc[-1]:
-                            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
+                            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)); sleep(0.1)
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                             switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -586,19 +589,21 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                     if body10 < 0:
                         if candle10['close'].iloc[-1] > indicator10['ma5'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+0.5)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+0.5); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격+0.5)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if max(candle10['high'].iloc[:-1]) < candle10['high'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body10_) < abs(body10):
-                                a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)) 
+                                a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); WriteLog(str(a)); sleep(0.1)
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
                                 switch3 = False; UpdateParameter(switch3, 'switch3')
@@ -607,7 +612,7 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle10['close'].iloc[-1] < indicator10['ma5'].iloc[-1]:
-                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                         WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -623,13 +628,14 @@ def ClosePosition():
                     switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body30 > 0:
                         if abs(body30) < 1:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+1); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격+1)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle30['high'].iloc[-2] > candle30['high'].iloc[-1]:
-                            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                             WriteLog(str(a))
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -640,19 +646,21 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                     if body30 < 0:
                         if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+0.5)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price+0.5); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격+0.5)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if max(candle30['high'].iloc[:-1]) < candle30['high'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body30_) < abs(body30):
-                                a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                                 WriteLog(str(a))
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -662,7 +670,7 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
-                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = SellMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                         WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -678,13 +686,14 @@ def ClosePosition():
                     switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body5 < 0:
                         if abs(body5) < 1:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-1)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-1); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격-1)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle5['low'].iloc[-2] < candle5['low'].iloc[-1]:
-                            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                             WriteLog(str(a))
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -695,19 +704,21 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                     if body5 > 0:
                         if candle5['close'].iloc[-1] < indicator5['ma5'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-0.5)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-0.5); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격-0.5)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if min(candle5['low'].iloc[:-1]) > candle5['low'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body5_) < abs(body5):
-                                a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                                 WriteLog(str(a))
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -717,7 +728,7 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle5['close'].iloc[-1] > indicator5['ma5'].iloc[-1]:
-                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                         WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -732,13 +743,14 @@ def ClosePosition():
                     switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body10 < 0:
                         if abs(body10) < 1:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-1)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-1); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격-1)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle10['low'].iloc[-2] < candle10['low'].iloc[-1]:
-                            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                             WriteLog(str(a))
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -749,19 +761,21 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                     if body10 > 0:
                         if candle10['close'].iloc[-1] < indicator10['ma5'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-0.5)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-0.5); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격-0.5)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if min(candle10['low'].iloc[:-1]) > candle10['low'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body10_) < abs(body10):
-                                a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                                 WriteLog(str(a))
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -771,7 +785,7 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle10['close'].iloc[-1] > indicator10['ma5'].iloc[-1]:
-                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                         WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -785,13 +799,14 @@ def ClosePosition():
                     switch2 = False; UpdateParameter(switch2, 'switch2')
                     if body30 < 0:
                         if abs(body30) < 1:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-1)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-1); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격-1)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if candle30['low'].iloc[-2] < candle30['low'].iloc[-1]:
-                            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                            a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                             WriteLog(str(a))
                             # 미체결 주문 제거
                             CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -802,19 +817,21 @@ def ClosePosition():
                                 fa.write('\n'); fa.write(message)
                     if body30 > 0:
                         if candle30['close'].iloc[-1] < indicator30['ma5'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-0.5)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price-0.5); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격-0.5)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                         if min(candle30['low'].iloc[:-1]) > candle30['low'].iloc[-1]:
-                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price)
+                            buy_sell, name, odno = ModifyOrderLimitWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, price); sleep(0.1)
+                            WriteLog('{} {} {}'.format(buy_sell, name, odno))
                             t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
                             message = "{} {}".format(t, "지정가 변경(진입가격)"); SendMessage(message, discord); print(message)
                             with open('Log.txt', 'a') as fa:
                                 fa.write('\n'); fa.write(message)
                             if abs(body30_) < abs(body30):
-                                a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                                a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                                 WriteLog(str(a))
                                 # 미체결 주문 제거
                                 CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -824,7 +841,7 @@ def ClosePosition():
                                 with open('Log.txt', 'a') as fa:
                                     fa.write('\n'); fa.write(message)
                     if candle30['close'].iloc[-1] > indicator30['ma5'].iloc[-1]:
-                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity)
+                        a = BuyMarket(appkey, appsecret, token, CANO, ACNT_PRDT_CD, ticker, quantity); sleep(0.1)
                         WriteLog(str(a))
                         # 미체결 주문 제거
                         CancelOrderWhole(appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno)
@@ -856,7 +873,7 @@ def StopLoss():
     global switch3, switchLong, switchShort, appkey, appsecret, token, CANO, ACNT_PRDT_CD, odno, ticker
     t = datetime.now(); t=t.strftime('%Y-%m-%d %H:%M:%S')
     print(t)
-    WriteLog('{} {} {} {}'.format(t, switch3))
+    WriteLog('{} {}'.format(t, switch3))
     if switch3:
         second = datetime.now().second
         if second < 56 or second > 58:
